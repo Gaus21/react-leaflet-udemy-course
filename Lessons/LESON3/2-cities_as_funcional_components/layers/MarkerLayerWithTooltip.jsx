@@ -1,17 +1,17 @@
 import React from "react";
-import { Marker, Tooltip, useMap } from "react-leaflet";
+import { Marker, Popup, Tooltip, useMap, LayersControl, LayerGroup } from "react-leaflet";
 import { mountainIcon } from "../icons/mountainIcon";
+
 
 export const MarkerLayerWithTooltip = ({ data }) => {
   const leafletMap = useMap();
 
   const handleClickMap = (e, f) => {
-    console.log("click", f.properties.name);
-    alert(`click On ${f.properties.name}`);
+   
     leafletMap.panTo(e.latlng);
   };
 
-  return data.features.map((feature) => {
+  const layer = data.features.map((feature) => {
     const { coordinates } = feature.geometry;
     const { name, elevation, continent } = feature.properties;
     return (
@@ -24,13 +24,23 @@ export const MarkerLayerWithTooltip = ({ data }) => {
           //mouseout: (e) => alert(`you out from ${name}`),
         }}
       >
-        <Tooltip  
-        >
+        <Tooltip>
           <h3>Mt. {name}</h3>
           Continent: <b>{continent}</b> <br />
           Elevation: <b>{elevation} m</b>
         </Tooltip>
+        <Popup>
+          <h3>Mt. {name}</h3>
+          Continent: <b>{continent}</b> <br />
+          Elevation: <b>{elevation} m</b>
+        </Popup>
       </Marker>
     );
   });
+
+  return (
+    <LayersControl.Overlay  name="Highest poitns">
+      <LayerGroup>{layer}</LayerGroup>
+    </LayersControl.Overlay>
+  );
 };

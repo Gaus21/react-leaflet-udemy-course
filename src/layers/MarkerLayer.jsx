@@ -91,6 +91,7 @@ export const MarkerLayer = ({
       }
 
       let doFilter = true;
+      
       if (geoFilter && radiusFilter) {
         doFilter = filterByGeo && filterByRadius;
       } else if (geoFilter && !radiusFilter) {
