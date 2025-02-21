@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, LayersControl } from "react-leaflet";
 import { mountains } from "./data/highest_points";
-import {irishCities2157} from "./data/irish_cities_2157"
+import { irishCities2157 } from "./data/irish_cities_2157"
 import { MarkerLayer } from "./layers/MarkerLayer";
-import { MarkerLayerCluster  } from "./layers/MarkerLayerCluster";
+import { MarkerLayerCluster } from "./layers/MarkerLayerCluster";
 import { MarkerLayerWithTooltip } from "./layers/MarkerLayerWithTooltip";
 import { RadiusFilter } from "./layers/RadiusFilter";
 import { continents } from "./data/continents";
@@ -50,15 +50,24 @@ export const Map = () => {
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           />
         </LayersControl.BaseLayer>
-        
+
+        <LayersControl.BaseLayer name="Topográfico">
+
+          <TileLayer
+            attribution='&copy; <a href="https://smn.conagua.gob.mx/es/">Servicio Meteorológico Nacional</a>'
+            url="http://172.29.60.18/src/dem_mex/{z}/{x}/{y}.png"
+          />
+
+        </LayersControl.BaseLayer>
+
         <MarkerLayer
           data={asyncCities}
           setRadiusFilter={setRadiusFilter}
           getRadiusFilter={getRadiusFilter}
           getGeoFilter={getGeoFilter}
         />
-        <MarkerLayerCluster data={asyncCities}/>
-        <MarkerLayerWithTooltipReproject   data={irishCities2157}/>
+        <MarkerLayerCluster data={asyncCities} />
+        <MarkerLayerWithTooltipReproject data={irishCities2157} />
         <RadiusFilter
           radiusFilter={radiusFilter}
           setRadiousFilter={setRadiusFilter}

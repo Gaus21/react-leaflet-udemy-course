@@ -22,7 +22,6 @@ Control.FitBoundsToDataControl = Control.extend({
                 />
             );
         };
-
         renderButton();
 
         return node;
