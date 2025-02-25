@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const initialState = [];
+const initialState = {
+  breakpoints: [],
+  status: "idle", // idle | loading | succeeded | failed
+  error: null
+};
 
 export const fetchBreakPoints = createAsyncThunk(
   "breakPoints/fetchBreakPoints",
@@ -11,18 +15,31 @@ export const fetchBreakPoints = createAsyncThunk(
     );
     return response.data;
   }
-);  
+);
 
 export const breakPointsSlice = createSlice({
-    name: "breakPoints",
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(fetchBreakPoints.fulfilled, (state, action) => {
-            return action.payload;
-        });
-    },
+  name: "breakPoints",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchBreakPoints.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(fetchBreakPoints.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchBreakPoints.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+
+  },
 });
 
-export const selectBreakPoints = (state) => state.breakPoints;
+export const getBreakPoints = (state) => state.breakPoints;
+export const getBreakPointsStatus = (state) => state.breakPoints.status;
+export const getBreakPointsError = (state) => state.breakPoints.error;
+
+
 export default breakPointsSlice.reducer;

@@ -1,10 +1,13 @@
 import React from 'react';
 import { useMap } from 'react-leaflet';
 import { Button } from 'antd';
-import { BorderInnerOutlined, BorderOuterOutlined } from '@ant-design/icons';
+import { BorderInnerOutlined, BorderOuterOutlined, DeleteOutlined } from '@ant-design/icons';
 import Control from 'react-leaflet-custom-control';
+import { removeAllMun } from '../features/mun/munSlice';
+import { useDispatch } from 'react-redux';
 
 const FitBoundsButton = () => {
+  const dispatch = useDispatch();
   // Obtener el objeto del mapa usando el hook `useMap` de `react-leaflet`
   const map = useMap();
   //Zoom  a una zona específica, puede aplicar a ciclones. 
@@ -25,17 +28,19 @@ const FitBoundsButton = () => {
     }
   }
 
+  const deleteMunicipalities = () => {
+    dispatch(removeAllMun());
+
+  }
+
+
+
   return (
     <>
       <Control
         position='topleft'
       >
-        <Button
-          style={{ height: '33px', width: '33px' }}
-          title='Fit bounds to world'
-          icon={<BorderOuterOutlined />}
-          onClick={() => map.fitWorld()} // Ajustar el mapa al mundo completo
-        />
+
       </Control>
       <Control
         position='topleft'>
@@ -44,6 +49,16 @@ const FitBoundsButton = () => {
           title='Fit bounds to layer'
           icon={<BorderInnerOutlined />}
           onClick={() => doFitDataToBounds()}
+        />
+      </Control>
+
+      <Control
+        position='topleft'>
+        <Button
+          style={{ height: '33px', width: '33px' }}
+          title='Fit bounds to layer'
+          icon={<DeleteOutlined />}
+          onClick={() => deleteMunicipalities()}
         />
       </Control>
     </>

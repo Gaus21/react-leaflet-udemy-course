@@ -12,11 +12,9 @@ import {
   makePopupMovable,
   restorePopup,
 } from "../customComponents/makePopupMovable";
-import { use } from "react";
 import { useSelector } from "react-redux";
 
 export const CircleLayer = () => {
-
   const breakpointData = useSelector((state) => state.breakpoints);
   const map = useMap();
   const mapEvents = useMapEvents({
@@ -28,7 +26,10 @@ export const CircleLayer = () => {
     },
   });
 
-  
+  if (breakpointData.status === "loading") {
+    return null;
+  }
+
   const layer = breakpointData.features.map((feature) => {
     const { coordinates } = feature.geometry;
     return (
