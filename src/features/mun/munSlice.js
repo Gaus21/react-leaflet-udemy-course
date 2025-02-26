@@ -21,7 +21,6 @@ export const fetchMun = createAsyncThunk(
     }
 );
 
-
 export const munSlice = createSlice({
     name: "mun",
     initialState: {
@@ -46,7 +45,6 @@ export const munSlice = createSlice({
                 // Crear un mapa de los nuevos features por cvegeo para fácil acceso
                 const newFeaturesMap = new Map(newFeatures.map(feature => [feature.properties.cvegeo, feature]));
                 console.log(newFeaturesMap);
-                
 
                 // Filtrar y reemplazar los valores existentes con los nuevos si el status es mayor
                 state.mun = state.mun.map(existingFeature => {

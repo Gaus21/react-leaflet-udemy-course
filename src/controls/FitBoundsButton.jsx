@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMap } from 'react-leaflet';
-import { Button } from 'antd';
+import { Button, Select } from 'antd';
 import { BorderInnerOutlined, BorderOuterOutlined, DeleteOutlined } from '@ant-design/icons';
 import Control from 'react-leaflet-custom-control';
 import { removeAllMun } from '../features/mun/munSlice';
@@ -30,17 +30,13 @@ const FitBoundsButton = () => {
 
   const deleteMunicipalities = () => {
     dispatch(removeAllMun());
-
   }
-
-
 
   return (
     <>
       <Control
         position='topleft'
       >
-
       </Control>
       <Control
         position='topleft'>
@@ -61,6 +57,7 @@ const FitBoundsButton = () => {
           onClick={() => deleteMunicipalities()}
         />
       </Control>
+     
     </>
 
 

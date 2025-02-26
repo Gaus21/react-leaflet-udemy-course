@@ -1,6 +1,5 @@
 import { Button, DatePicker, Card, InputNumber, Space, Select } from "antd";
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
-
 import { useDispatch } from "react-redux";
 import { fetchMun, removeMun } from "../features/mun/munSlice";
 
@@ -40,8 +39,6 @@ export const PopupStatistics = ({ feature }) => {
             <Option value="2">TS Warning</Option>
             <Option value="3">H Watch</Option>
             <Option value="4">H Warning</Option>
-
-
           </Select>
           <Button
             type="primary"
