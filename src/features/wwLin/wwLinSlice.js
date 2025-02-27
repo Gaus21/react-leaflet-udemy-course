@@ -9,10 +9,11 @@ const initialState = {
 
 export const fetchWwLin = createAsyncThunk(
     "wwLin/fetchWwLin",
-    async ({id}) => {
-    
+    async ({id, advisnum}) => {
+        console.log( import.meta.env.VITE_WWLIN_URL +`&CQL_FILTER=stormid='${id}'and advisnum='${advisnum}'`);
+        
         const response = await axios.get(
-            import.meta.env.VITE_WWLIN_URL +`&CQL_FILTER=stormid='${id}'`
+            import.meta.env.VITE_WWLIN_URL +`&CQL_FILTER=stormid='${id}'and advisnum='${advisnum}'`
         );
         return response.data;
     }
