@@ -17,8 +17,7 @@ const SelectStormId = () => {
     const handleSelectChange = (value) => {
         dispatch(setStormId(value));
     };
-    useEffect(() => {
-        console.log(wwLineQuery.cyclons.length)
+    useEffect(() => {        
         if (wwLineQuery.cyclons.length > 0) {
             dispatch(setStormId(wwLineQuery.cyclons[0].storm_id));
         };
@@ -34,7 +33,7 @@ const SelectStormId = () => {
     useEffect(() => {
         dispatch(setAdvisNum('001'))
         dispatch(fetchAdvis({ id: wwLineQuery.stormid }))
-        
+
     }, [wwLineQuery.stormid]);
 
 
@@ -47,7 +46,7 @@ const SelectStormId = () => {
     }
 
     return (
-        <Card style={{ width: 280, position: 'absolute', top: '10px', left: '50px', zIndex: 1000 }}>
+        <Card style={{ width: 280, position: 'absolute', bottom: '10px', left: '10px', zIndex: 1000 }}>
             <h3>Storm Selector</h3>
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>

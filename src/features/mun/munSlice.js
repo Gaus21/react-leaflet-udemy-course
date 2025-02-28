@@ -7,9 +7,25 @@ import axios from "axios";
 export const fetchMun = createAsyncThunk(
     "mun/fetchMun",
     async ({ id, selectValue }) => {
+
+        /*
+       if (updatedFeatures.length === 0) {
+           return;
+       }
+
+      
+       const CQL_FILTER = updatedFeatures.map(feature => `'${feature.id}'`).join(",");
+       const response = await axios.get(
+              import.meta.env.VITE_MUN_URL_MULTI + "&CQL_FILTER=id_bp IN(" +CQL_FILTER+")"
+       );*/
+
+        //console.log(import.meta.env.VITE_MUN_URL + `&id_bp='${id}'`)
+
+
         const response = await axios.get(
-            import.meta.env.VITE_MUN_URL_MULTI + `&CQL_FILTER=id_bp=${id}`
+            import.meta.env.VITE_MUN_URL + `&CQL_FILTER=id_bp='${id}'`
         );
+
         const updatedFeatures = response.data.features.map(feature => ({
             ...feature,
             properties: {
@@ -18,6 +34,8 @@ export const fetchMun = createAsyncThunk(
             }
         }));
         return { ...response.data, features: updatedFeatures };
+
+  
     }
 );
 
@@ -40,11 +58,12 @@ export const munSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchMun.fulfilled, (state, action) => {
+               // state.mun = []
                 const newFeatures = action.payload.features;
 
                 // Crear un mapa de los nuevos features por cvegeo para fácil acceso
                 const newFeaturesMap = new Map(newFeatures.map(feature => [feature.properties.cvegeo, feature]));
-                console.log(newFeaturesMap);
+
 
                 // Filtrar y reemplazar los valores existentes con los nuevos si el status es mayor
                 state.mun = state.mun.map(existingFeature => {

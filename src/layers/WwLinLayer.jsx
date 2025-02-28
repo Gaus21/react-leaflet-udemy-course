@@ -1,10 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo, memo } from 'react'
 import { GeoJSON, LayersControl, LayerGroup } from 'react-leaflet';
-import { useSelector, } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import useSpatialJoin from '../tools/useSpatialJoin'
+import { fetchMun } from '../features/mun/munSlice';
+
+
+import { booleanPointOnLine } from '@turf/boolean-point-on-line';
+import { featureCollection } from '@turf/helpers';
+
 
 const WwLinLayer = () => {
+    const dispatch = useDispatch();
 
     const wwLinData = useSelector((state) => state.wwLin);
+    const breakpoints = useSelector((state) => state.breakpoints);
+    const stormId = useSelector((state) => state.wwLineQuery.stormid);
+    const advisNum = useSelector((state) => state.wwLineQuery.advisnum);
     const [update, setUpdate] = useState(false);
 
     useEffect(() => {
@@ -25,6 +36,31 @@ const WwLinLayer = () => {
         }
     };
 
+
+    const joinedPoints = useSpatialJoin(breakpoints, wwLinData)
+
+    useEffect(() => {
+        if (joinedPoints === null || joinedPoints.features.length === 0) {
+            return;
+        }
+
+        /*
+        const updatedFeatures = joinedPoints.features.map(feature => ({
+
+            id: feature.pid,
+            selectValue: feature.tcww_i,
+
+        }));
+
+        dispatch(fetchMun({ updatedFeatures }));*/
+        console.log(joinedPoints);
+
+        joinedPoints.features.forEach((feature) => {
+            dispatch(fetchMun({ id: feature.pid, selectValue: feature.tcww_i }));
+        });
+
+    }, [joinedPoints, stormId]);
+
     if (wwLinData.status === 'loading') {
         return null;
     }
@@ -42,8 +78,8 @@ const WwLinLayer = () => {
             }}
         ></GeoJSON>
     );
-    return (
 
+    return (
         <LayersControl.Overlay name="WW Lines" checked>
             <LayerGroup key={update}>{layer}</LayerGroup>
         </LayersControl.Overlay>

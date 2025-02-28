@@ -42,6 +42,8 @@ export const wwLineQuerySlice = createSlice({
             state.stormid = action.payload;
         },
         setAdvisNum: (state, action) => {
+            console.log(action.payload);
+            
             state.advisnum = action.payload;
         },
 

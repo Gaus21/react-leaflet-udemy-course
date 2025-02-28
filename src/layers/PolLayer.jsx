@@ -6,7 +6,7 @@ const PolLayer = () => {
   const munData = useSelector((state) => state.mun);
   const [update, setUpdate] = useState(false);
 
-  useEffect(() => {   
+  useEffect(() => {
     setUpdate((prev) => !prev);
   }, [munData]);
 
@@ -15,13 +15,13 @@ const PolLayer = () => {
   }
 
   const color = (status) => {
-    if (status === '1') {
+    if (status === 1) {
       return 'purple';
-    } else if (status === '2') {
+    } else if (status === 2) {
       return 'yellow';
-    } else if (status === '3') {
+    } else if (status === 3) {
       return 'pink';
-    } else if (status === '4') {
+    } else if (status === 4) {
       return 'red';
     } else {
       return 'green';
