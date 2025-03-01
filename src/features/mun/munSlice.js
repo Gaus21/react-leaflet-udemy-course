@@ -7,6 +7,8 @@ import axios from "axios";
 export const fetchMun = createAsyncThunk(
     "mun/fetchMun",
     async ({ id, selectValue }) => {
+        console.log(selectValue);
+
 
         /*
        if (updatedFeatures.length === 0) {
@@ -35,7 +37,7 @@ export const fetchMun = createAsyncThunk(
         }));
         return { ...response.data, features: updatedFeatures };
 
-  
+
     }
 );
 
@@ -58,7 +60,7 @@ export const munSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchMun.fulfilled, (state, action) => {
-               // state.mun = []
+                // state.mun = []
                 const newFeatures = action.payload.features;
 
                 // Crear un mapa de los nuevos features por cvegeo para fácil acceso

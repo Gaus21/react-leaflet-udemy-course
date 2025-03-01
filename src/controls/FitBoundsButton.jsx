@@ -1,16 +1,27 @@
 import React from 'react';
 import { useMap } from 'react-leaflet';
 import { Button, Select } from 'antd';
-import { BorderInnerOutlined, BorderOuterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { BorderInnerOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import Control from 'react-leaflet-custom-control';
-import { removeAllMun } from '../features/mun/munSlice';
+import { removeAllMun, fetchMun } from '../features/mun/munSlice';
+import  useSpatialJoin  from '../tools/useSpatialJoin';
+import { useSelector } from 'react-redux';
+
+
+
 import { useDispatch } from 'react-redux';
+
 
 const FitBoundsButton = () => {
   const dispatch = useDispatch();
-  // Obtener el objeto del mapa usando el hook `useMap` de `react-leaflet`
   const map = useMap();
-  //Zoom  a una zona específica, puede aplicar a ciclones. 
+
+  const breakpoints = useSelector((state) => state.breakpoints);
+  const wwLinData = useSelector((state) => state.wwLin);
+  //const stormId = useSelector((state) => state.wwLineQuery.stormid);
+  //const advisNum = useSelector((state) => state.wwLineQuery.advisnum);
+
+
   const doFitDataToBounds = () => {
     const latLngs = [];
     map.eachLayer((layer) => {
@@ -31,6 +42,19 @@ const FitBoundsButton = () => {
   const deleteMunicipalities = () => {
     dispatch(removeAllMun());
   }
+
+  const joinedPoints = useSpatialJoin(breakpoints, wwLinData)
+  const addMunicipalities = () => {
+    if (joinedPoints === null || joinedPoints.features.length === 0) {
+      return;
+    }
+
+    joinedPoints.features.forEach((feature) => {
+
+      dispatch(fetchMun({ id: feature.pid, selectValue: feature.tcww_i }));
+    });
+  }
+
 
   return (
     <>
@@ -53,11 +77,22 @@ const FitBoundsButton = () => {
         <Button
           style={{ height: '33px', width: '33px' }}
           title='Fit bounds to layer'
+          icon={<PlusCircleOutlined />}
+          onClick={() => addMunicipalities()}
+        />
+      </Control>
+
+
+      <Control
+        position='topleft'>
+        <Button
+          style={{ height: '33px', width: '33px' }}
+          title='Fit bounds to layer'
           icon={<DeleteOutlined />}
           onClick={() => deleteMunicipalities()}
         />
       </Control>
-     
+
     </>
 
 

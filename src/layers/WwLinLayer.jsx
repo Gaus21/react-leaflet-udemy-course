@@ -3,20 +3,23 @@ import { GeoJSON, LayersControl, LayerGroup } from 'react-leaflet';
 import { useSelector, useDispatch } from 'react-redux';
 import useSpatialJoin from '../tools/useSpatialJoin'
 import { fetchMun } from '../features/mun/munSlice';
-
+import { removeAllMun } from '../features/mun/munSlice';
 
 import { booleanPointOnLine } from '@turf/boolean-point-on-line';
 import { featureCollection } from '@turf/helpers';
 
 
 const WwLinLayer = () => {
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     const wwLinData = useSelector((state) => state.wwLin);
-    const breakpoints = useSelector((state) => state.breakpoints);
-    const stormId = useSelector((state) => state.wwLineQuery.stormid);
-    const advisNum = useSelector((state) => state.wwLineQuery.advisnum);
     const [update, setUpdate] = useState(false);
+    
+    //const breakpoints = useSelector((state) => state.breakpoints);
+    //const stormId = useSelector((state) => state.wwLineQuery.stormid);
+    //const advisNum = useSelector((state) => state.wwLineQuery.advisnum);
+
+
 
     useEffect(() => {
         setUpdate((prev) => !prev);
@@ -36,9 +39,8 @@ const WwLinLayer = () => {
         }
     };
 
-
+/*
     const joinedPoints = useSpatialJoin(breakpoints, wwLinData)
-
     useEffect(() => {
         if (joinedPoints === null || joinedPoints.features.length === 0) {
             return;
@@ -52,14 +54,16 @@ const WwLinLayer = () => {
 
         }));
 
-        dispatch(fetchMun({ updatedFeatures }));*/
+        dispatch(fetchMun({ updatedFeatures }));
         console.log(joinedPoints);
 
+        dispatch(removeAllMun());
         joinedPoints.features.forEach((feature) => {
+
             dispatch(fetchMun({ id: feature.pid, selectValue: feature.tcww_i }));
         });
 
-    }, [joinedPoints, stormId]);
+    }, [joinedPoints, stormId]);*/
 
     if (wwLinData.status === 'loading') {
         return null;
