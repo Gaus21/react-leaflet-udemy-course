@@ -6,11 +6,7 @@ import Control from 'react-leaflet-custom-control';
 import { removeAllMun, fetchMun } from '../features/mun/munSlice';
 import  useSpatialJoin  from '../tools/useSpatialJoin';
 import { useSelector } from 'react-redux';
-
-
-
 import { useDispatch } from 'react-redux';
-
 
 const FitBoundsButton = () => {
   const dispatch = useDispatch();
@@ -44,6 +40,7 @@ const FitBoundsButton = () => {
   }
 
   const joinedPoints = useSpatialJoin(breakpoints, wwLinData)
+  
   const addMunicipalities = () => {
     if (joinedPoints === null || joinedPoints.features.length === 0) {
       return;

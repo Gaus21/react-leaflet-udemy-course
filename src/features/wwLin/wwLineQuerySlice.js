@@ -26,7 +26,7 @@ export const fetchStormQuery = createAsyncThunk(
 
 export const fetchAdvis = createAsyncThunk(
     "advis/fetchAdvis",
-    async ({ id }) => {        
+    async ({ id }) => {
         const response = await axios.get(
             import.meta.env.VITE_ADVISORY_URL + `storm_id=${id}`
         );
@@ -42,8 +42,6 @@ export const wwLineQuerySlice = createSlice({
             state.stormid = action.payload;
         },
         setAdvisNum: (state, action) => {
-            console.log(action.payload);
-            
             state.advisnum = action.payload;
         },
 
@@ -76,8 +74,6 @@ export const wwLineQuerySlice = createSlice({
                 state.error = action.error.message;
             }
             )
-
-
     },
 });
 
@@ -86,6 +82,7 @@ export const getWwLineQuery = (state) => state.wwLineQuery;
 export const getWwLineQueryStatus = (state) => state.wwLineQuery.status;
 export const getWwLineQueryError = (state) => state.wwLineQuery.error;
 export const advisnum = (state) => state.wwLineQuery.advisnum;
+export const getAdvisory = (state) => state.wwLineQuery.advisory;
 
 export const { setStormId, setAdvisNum, setBasin } = wwLineQuerySlice.actions;
 

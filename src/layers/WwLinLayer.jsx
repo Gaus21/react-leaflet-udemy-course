@@ -11,15 +11,12 @@ import { featureCollection } from '@turf/helpers';
 
 const WwLinLayer = () => {
     //const dispatch = useDispatch();
-
     const wwLinData = useSelector((state) => state.wwLin);
     const [update, setUpdate] = useState(false);
     
     //const breakpoints = useSelector((state) => state.breakpoints);
     //const stormId = useSelector((state) => state.wwLineQuery.stormid);
     //const advisNum = useSelector((state) => state.wwLineQuery.advisnum);
-
-
 
     useEffect(() => {
         setUpdate((prev) => !prev);
@@ -75,7 +72,7 @@ const WwLinLayer = () => {
             data={wwLinData}
             style={(feature) => {
                 return {
-                    color: color(feature.properties.tcww),
+                    color: color(feature.properties.tcww),                 
                     weight: 4,
                     fillOpacity: 0.2,
                 };

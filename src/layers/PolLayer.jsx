@@ -10,10 +10,6 @@ const PolLayer = () => {
     setUpdate((prev) => !prev);
   }, [munData]);
 
-  if (munData.status === 'loading') {
-    return null;
-  }
-
   const color = (status) => {
     if (status === 1) {
       return 'purple';
@@ -28,13 +24,19 @@ const PolLayer = () => {
     }
   };
 
+
+  if (munData.status === 'loading' || munData=== 'idle'|| munData.length === 0) {
+    return null;
+  }
+
+
   const layer = (
     <GeoJSON
       key="geo-json-layer"
       data={munData.mun}
       style={(feature) => {
         return {
-          color: color(feature.properties.status),
+          color: color(feature.properties.tcww_i),
           weight: 0.7,
           fillOpacity: 0.2,
         };

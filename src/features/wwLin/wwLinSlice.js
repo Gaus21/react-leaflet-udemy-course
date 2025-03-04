@@ -7,11 +7,14 @@ const initialState = {
     error: null
 };
 
+
 export const fetchWwLin = createAsyncThunk(
     "wwLin/fetchWwLin",
     async ({id, advisnum}) => {  
+        console.log(import.meta.env.VITE_WWLIN_URL +`&viewparams=storm:${id};advis:${advisnum}`);
+        
         const response = await axios.get(
-            import.meta.env.VITE_WWLIN_URL +`&CQL_FILTER=stormid='${id}'and advisnum='${advisnum}'`
+            import.meta.env.VITE_WWLIN_URL +`&viewparams=storm:${id};advis:${advisnum}`
         );
         return response.data;
     }
